@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checking for Sorted</title>
+</head>
+<body>
+    <script>
+        let array = [];
+        alert("本工具實作「氣泡排序法 (Bubble Sort) 演算法」與「輸入防錯攔截機制」。點擊確定後，請依序輸入 10 個數字。Welcome to list sorting checker!");
+        for(i=0; i<10; i++){
+            let number = prompt("Please enter a number for position " + i + " in the list");
+            if(number == ""){
+                number = 0;
+            }
+            number = Number(number);
+            if(isNaN(number) ){
+                alert("Please enter a valid number!");
+                i--;
+            }
+            else{
+                array.push(number);
+            }
+        }
+        alert("Checking if the following list is sorted in increasing order: " + array.join(", "));
+        let check = true;
+        for(let x=1; x<10; x++){
+            if(array[x] < array[x-1]){
+                check = false;
+                break;
+            }
+        }
+        if(check == false){
+            alert("This list is NOT sorted! -_-'");
+        }
+        //Optional challenge
+        //Bubble Sort
+        let swap = 0;
+        for(let z=0; z<10; z++){
+            for(let x=0; x<9; x++){
+                if(array[x] > array[x+1]){
+                    swap = array[x+1];
+                    array[x+1] = array[x];
+                    array[x] = swap;
+                }
+            }
+        }
+        alert("The numbers are sorted now!: " + array.join(", "));
+    </script>
+</body>  
+</html>  
