@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Number Form</title>
+
+    <style>
+        label, input {
+            display: block;
+        }
+
+        .validation-message {
+            color:orange;
+            font-weight: bold;
+        }
+
+        /* Use this class for the message when the user types a valid number. */
+        .valid {
+            color: green;
+        }
+
+        /* Use this class for the message when the user SUBMITS an invalid number. */
+        .invalid {
+            color:red;
+        }
+
+        #success {
+            background-color: aquamarine;
+            color: green;
+            padding:1rem;
+            display:none;
+        }
+
+        /* Use this class for the "success" message box when the user submits a valid number. */
+        #success.show-success {
+            display:block;
+        }
+
+    </style>
+</head>
+<body>
+            
+        <div style="background-color: #f4f6f8; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: sans-serif; max-width: 500px;">
+            <p style="font-size: 14px; color: #666; line-height: 1.5;">
+                本網頁目的在於透過原生 JavaScript 解決使用者輸入表單時的資料去噪與即時防錯。
+            </p>
+            <ul style="font-size: 13px; color: #555; padding-left: 20px;">
+                <li><strong>即時資料去噪：</strong> 嘗試輸入帶有橫線（-）或點（.）的電話，JS 會自動在幕後過濾雜音。</li>
+                <li><strong>即時狀態驗證：</strong> 輸入時畫面的提示字會依據格式即時變更（綠/橘色切換）。</li>
+                <li><strong>表單攔截機制：</strong> 若格式未滿 10 碼或內含非數字，點擊 Submit 將觸發攔截防錯（紅色警告）。</li>
+            </ul>
+        </div>
+<!-- 說明區塊結束，底下接你原本的 <form> -->
+    <form id="form" >
+        <label>
+            Phone number:
+            <input type="text" name="phone" id="phone-input" placeholder="000-000-0000">
+            <!-- The span below should tell the user, in real time, about the validity of their input. -->
+            <span class="invalid" id="phone-validation-message"></span>
+        </label>
+        <input type="submit" value="submit">
+    </form>
+
+    <!-- Note that the below div is hidden by default -->
+    <div id="success">
+        Thank you for submitting your phone number!
+    </div>
+
+    <script>
+        let phone = "";
+        const validationMessage = document.getElementById('phone-validation-message');
+        let successMessage = document.getElementById('success');
+        const phoneInput = document.getElementById('phone-input');
+        phoneInput.addEventListener('input', function() {         
+            phone = phoneInput.value.replaceAll("-", "").replaceAll(".", "");
+            if(phone.length == 10 && !isNaN(Number(phone))) {
+                validationMessage.textContent = "Phone number validated";
+                validationMessage.className = "valid";
+            }
+            else {    
+                validationMessage.textContent = "Please enter a valid number";
+                validationMessage.className = "validation-message";
+            }
+            });
+
+        document.getElementById('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+  
+            if (phone.length !== 10 || isNaN(Number(phone))) {
+                validationMessage.textContent = "Invalid phone number.";
+                validationMessage.className = "invalid";
+                successMessage.style.display = "none";
+            } 
+            else {
+                validationMessage.textContent = "Phone number validated";
+                validationMessage.className = "valid";
+                successMessage.style.display = "block";
+            }
+            });
+    </script>
+</body>
+</html>
